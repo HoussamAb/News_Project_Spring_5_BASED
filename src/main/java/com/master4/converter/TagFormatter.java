@@ -9,9 +9,6 @@ import java.util.Collection;
 
 public class TagFormatter extends CustomCollectionEditor {
 
-
-
-
     public TagFormatter(Class<? extends Collection> collectionType ) {
         super(collectionType);
     }

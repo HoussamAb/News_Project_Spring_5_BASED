@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 
 @NoArgsConstructor
@@ -22,8 +23,17 @@ public class User {
     @Column(name="email", nullable = false, unique = true)
     private String email;
 
+    @Column(name="username", nullable = false)
+    private String username;
+
     @Column(name="password", nullable = false)
     private String password;
+
+    @Transient
+    private String passwordConfirm;
+
+    @ManyToMany
+    private Set<Role> roles;
 
     @Column(name="created")
     @Temporal(TemporalType.TIMESTAMP)
