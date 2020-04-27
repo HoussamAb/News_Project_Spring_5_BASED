@@ -1,10 +1,15 @@
 package com.master4.entities;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 @Entity
 @Table(name = "role")
@@ -15,8 +20,11 @@ public class Role {
 
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
-    private Set<User> users;
+    @ManyToMany
+    @JoinTable(name="users_role", joinColumns={@JoinColumn(referencedColumnName="id")}
+            , inverseJoinColumns={@JoinColumn(referencedColumnName="id")})
+    private List<User> users;
+
 
     public Long getId() {
         return id;
@@ -34,11 +42,6 @@ public class Role {
         this.name = name;
     }
 
-    public Set<User> getUsers() {
-        return users;
-    }
+    public Role(Long id){this.id = id;}
 
-    public void setUsers(Set<User> users) {
-        this.users = users;
-    }
 }

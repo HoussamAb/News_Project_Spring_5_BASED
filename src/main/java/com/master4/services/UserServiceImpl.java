@@ -42,13 +42,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User findByUserUsername(String username) {
-        User u = new User();
+        User u = null;
         List<User> users =  userRepository.findAll();
         if(users.isEmpty()){
             return null;
         }
         for (int i=0; i<users.size();i++){
-            if(users.get(i).getUsername() == username){
+            if(users.get(i).getUsername().equals(username)==true){
                 u =  users.get(i);
             }
         }

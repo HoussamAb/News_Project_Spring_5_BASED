@@ -33,8 +33,9 @@ public class User {
     @Transient
     private String passwordConfirm;
 
-    @ManyToMany
-    private Set<Role> roles;
+    @OneToMany(cascade=CascadeType.ALL)
+    @JoinColumn(name="role_id")
+    private List<Role> roles;
 
     @Column(name="created")
     @Temporal(TemporalType.TIMESTAMP)
