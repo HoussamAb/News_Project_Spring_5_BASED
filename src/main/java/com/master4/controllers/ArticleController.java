@@ -1,6 +1,9 @@
 package com.master4.controllers;
 
 
+import com.master4.annotaion.Admin;
+import com.master4.annotaion.Vister;
+import com.master4.annotaion.Writer;
 import com.master4.converter.TagConverter;
 import com.master4.converter.TagFormatter;
 import com.master4.entities.Article;
@@ -38,6 +41,9 @@ public class ArticleController {
                 new TagFormatter(List.class));
     }
 
+    @Admin
+    @Vister
+    @Writer
     @GetMapping(value = {"/","/page/{id}"})
     public String home(@PathVariable(name="id",required = false,HttpServletRequest request) Optional<Integer> id, ModelMap model)
     {
@@ -46,6 +52,9 @@ public class ArticleController {
         return "article/home";
     }
 
+    @Admin
+    @Vister
+    @Writer
     @RequestMapping("/view/{id}")
     public String view(@PathVariable("id") long id,ModelMap model,HttpServletRequest request) throws ResourceNotFoundException {
         model.addAttribute("article",articleService.findById(id));
@@ -53,6 +62,8 @@ public class ArticleController {
     }
 
 
+    @Admin
+    @Writer
     @GetMapping("/add")
     public String add(ModelMap model,Article article,HttpServletRequest request) {
             model.addAttribute("tags", tagService.getAllTags());
@@ -60,6 +71,8 @@ public class ArticleController {
        return "article/add";
     }
 
+    @Admin
+    @Writer
     @GetMapping("/add/{id}")
     public String edit(@PathVariable("id") long id, ModelMap model, HttpServletRequest request) throws ResourceNotFoundException {
         Article article=articleService.findByIdWithTags(id);
@@ -78,6 +91,8 @@ public class ArticleController {
         return "article/add";
     }
 
+    @Admin
+    @Writer
     @PostMapping("/save")
     public String saveArticle(@Valid @ModelAttribute("article") Article article, BindingResult result, ModelMap model,HttpServletRequest request) throws ResourceNotFoundException {
         if(result.hasErrors()){
@@ -90,6 +105,8 @@ public class ArticleController {
         return "redirect:/article/";
     }
 
+    @Admin
+    @Writer
     @GetMapping("/delete/{page}/{id}")
     public String delete(@PathVariable("page") long page,@PathVariable("id") long id, ModelMap model,HttpServletRequest request) throws ResourceNotFoundException {
         articleService.deleteById(id);
