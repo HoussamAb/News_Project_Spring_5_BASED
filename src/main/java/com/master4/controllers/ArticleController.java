@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +39,7 @@ public class ArticleController {
     }
 
     @GetMapping(value = {"/","/page/{id}"})
-    public String home(@PathVariable(name="id",required = false) Optional<Integer> id, ModelMap model)
+    public String home(@PathVariable(name="id",required = false,HttpServletRequest request) Optional<Integer> id, ModelMap model)
     {
             Page<Article> pages = articleService.getAllArticles(id, 3, "id");
             model.addAttribute("pageable", pages);
@@ -46,21 +47,21 @@ public class ArticleController {
     }
 
     @RequestMapping("/view/{id}")
-    public String view(@PathVariable("id") long id,ModelMap model) throws ResourceNotFoundException {
+    public String view(@PathVariable("id") long id,ModelMap model,HttpServletRequest request) throws ResourceNotFoundException {
         model.addAttribute("article",articleService.findById(id));
         return "article/view";
     }
 
 
     @GetMapping("/add")
-    public String add(ModelMap model,Article article) {
+    public String add(ModelMap model,Article article,HttpServletRequest request) {
             model.addAttribute("tags", tagService.getAllTags());
             model.addAttribute("article", article);
        return "article/add";
     }
 
     @GetMapping("/add/{id}")
-    public String edit(@PathVariable("id") long id, ModelMap model) throws ResourceNotFoundException {
+    public String edit(@PathVariable("id") long id, ModelMap model, HttpServletRequest request) throws ResourceNotFoundException {
         Article article=articleService.findByIdWithTags(id);
         List<Tag> tags=tagService.getAllTags();
         tags.forEach(e->{
@@ -78,7 +79,7 @@ public class ArticleController {
     }
 
     @PostMapping("/save")
-    public String saveArticle(@Valid @ModelAttribute("article") Article article, BindingResult result, ModelMap model) throws ResourceNotFoundException {
+    public String saveArticle(@Valid @ModelAttribute("article") Article article, BindingResult result, ModelMap model,HttpServletRequest request) throws ResourceNotFoundException {
         if(result.hasErrors()){
 
             model.addAttribute("tags", tagService.getAllTags());
@@ -90,7 +91,7 @@ public class ArticleController {
     }
 
     @GetMapping("/delete/{page}/{id}")
-    public String delete(@PathVariable("page") long page,@PathVariable("id") long id, ModelMap model) throws ResourceNotFoundException {
+    public String delete(@PathVariable("page") long page,@PathVariable("id") long id, ModelMap model,HttpServletRequest request) throws ResourceNotFoundException {
         articleService.deleteById(id);
         return "redirect:/article/page/"+page;
     }

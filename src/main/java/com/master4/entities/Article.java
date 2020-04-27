@@ -37,6 +37,7 @@ public class Article {
     @Temporal(TemporalType.TIMESTAMP)
     private Date created;
 
+
     @Column(name = "modified")
     @Temporal(TemporalType.TIMESTAMP)
     private Date modified ;

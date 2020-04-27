@@ -1,5 +1,6 @@
 package com.master4.controllers;
 
+import com.master4.entities.Role;
 import com.master4.entities.User;
 import com.master4.exceptions.ResourceNotFoundException;
 import com.master4.services.UserService;
@@ -59,16 +60,18 @@ public class UserController {
         model.addAttribute("user", user);
         model.addAttribute("username", user.getUsername());
         model.addAttribute("password", user.getPassword());
+
         System.out.println(user);
         if(result.hasErrors()){
             return "auth/login";
         }
         User u = userService.findByUserUsername((String) model.getAttribute("username"));
         if(u != null){
-            Map<String, Set> sessionData = new HashMap<>();
-            sessionData.put(user.getUsername(),user.getRoles());
+            Map<String, Object> sessionData = new HashMap<>();
+            sessionData.put(user.getUsername(),user.getRole());
             request.getSession().invalidate();
             request.getSession().setAttribute("users", sessionData);
+            request.getSession().setAttribute("role", ((Role)u.getRole()).getName());
             return "auth/index";
         }
         return "redirect:/login";
