@@ -1,11 +1,15 @@
 package com.master4.entities;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 import java.util.Set;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
+@Getter @Setter
 @Entity
 @Table(name = "role")
 public class Role {
@@ -14,6 +18,12 @@ public class Role {
     private Long id;
 
     private String name;
+
+
+    /*@ManyToMany
+    @JoinTable(name="users_role", joinColumns={@JoinColumn(referencedColumnName="id")}
+            , inverseJoinColumns={@JoinColumn(referencedColumnName="id")})
+    private List<User> users;*/
 
 
 
@@ -32,6 +42,9 @@ public class Role {
     public void setName(String name) {
         this.name = name;
     }
+
+
+    public Role(Long id){this.id = id;}
 
 
 }

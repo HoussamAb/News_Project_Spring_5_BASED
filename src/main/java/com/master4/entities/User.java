@@ -33,8 +33,11 @@ public class User {
     @Transient
     private String passwordConfirm;
 
+
     @ManyToOne
+
     private Role role;
+
 
     @Column(name="created")
     @Temporal(TemporalType.TIMESTAMP)

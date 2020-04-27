@@ -12,6 +12,7 @@ public interface TagService {
 
 
     public Page<Tag> getAllTags(Optional<Integer> pageNo, Integer pageSize, String sortBy);
+
     public List<Tag> getAllTags();
 
     Tag findById(long id) throws ResourceNotFoundException;
