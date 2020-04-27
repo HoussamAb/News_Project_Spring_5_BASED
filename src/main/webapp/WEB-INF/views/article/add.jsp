@@ -61,11 +61,6 @@
                 </c:forEach>
                 <form:errors path="tagList" cssClass="alert-danger" />
             </div>
-            
-
-
-
-
 
             <input type = "submit" value = "Submit"/>
         </form:form>

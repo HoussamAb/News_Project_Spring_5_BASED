@@ -17,4 +17,5 @@ public interface UserService {
     void deleteById(long id);
 
     User findByIdWithTags(@Param("id") long id);
+    User findByUserUsername(String username);
 }

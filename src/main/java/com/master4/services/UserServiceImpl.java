@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 
 @Transactional
 @Service
@@ -37,5 +38,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public User findByIdWithTags(long id) {
         return null;
+    }
+
+    @Override
+    public User findByUserUsername(String username) {
+        User u = new User();
+        List<User> users =  userRepository.findAll();
+        if(users.isEmpty()){
+            return null;
+        }
+        for (int i=0; i<users.size();i++){
+            if(users.get(i).getUsername() == username){
+                u =  users.get(i);
+            }
+        }
+        return u;
     }
 }
