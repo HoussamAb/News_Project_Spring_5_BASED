@@ -45,7 +45,7 @@ public class ArticleController {
     @Vister
     @Writer
     @GetMapping(value = {"/","/page/{id}"})
-    public String home(@PathVariable(name="id",required = false,HttpServletRequest request) Optional<Integer> id, ModelMap model)
+    public String home(@PathVariable(name="id",required = false) Optional<Integer> id, ModelMap model)
     {
             Page<Article> pages = articleService.getAllArticles(id, 3, "id");
             model.addAttribute("pageable", pages);
