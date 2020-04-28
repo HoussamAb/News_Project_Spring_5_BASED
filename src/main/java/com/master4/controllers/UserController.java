@@ -29,10 +29,16 @@ public class UserController {
      @Autowired
     private RoleRepository roleRepository;
 
+
+    /*public void initBinder(WebDataBinder binder) {
+        binder.registerCustomEditor(Role.class,RoleFormater("role"),String.class);
+        binder.registerCustomEditor(String.class,"",new RoleFormater(String.class));
+
+
+    }*/
     @InitBinder
-    public void initBinder(WebDataBinder binder) {
-        binder.registerCustomEditor(List.class, "roles",
-                new RoleFormater(List.class));
+    private void customizeBinding (WebDataBinder binder) {
+        binder.registerCustomEditor(String.class,"roles", new RoleFormater());
     }
 
     @GetMapping("/register")
@@ -67,27 +73,20 @@ public class UserController {
         }
         return "auth/login";
     }
+
     @PostMapping("/sendlogin")
     public String sendlogin( @ModelAttribute("userForm") User user, BindingResult result, ModelMap model, HttpServletRequest request) throws ResourceNotFoundException {
         model.addAttribute("user", user);
-
-        model.addAttribute("username", user.getUsername());
-        model.addAttribute("password", user.getPassword());
-
-
-
         System.out.println(user);
         if(result.hasErrors()){
             return "auth/login";
         }
-
         User u = userService.findByUserUsername((String) model.getAttribute("username"));
         if(u != null){
             Map<String, Object> sessionData = new HashMap<>();
-            sessionData.put(user.getUsername(),user.getRole());
+            sessionData.put(user.getUsername(),user.getRoles());
             request.getSession().invalidate();
             request.getSession().setAttribute("users", sessionData);
-            request.getSession().setAttribute("role", ((Role)u.getRole()).getName());
             return "auth/index";
         }
         return "redirect:/login";
@@ -100,7 +99,6 @@ public class UserController {
         Map<String,String> sessionData =  new HashMap<>();
         messages.forEach((key, value) -> sessionData.put(key,transfer(value).getName()));
         model.addAttribute("session" , sessionData);
-        model.addAttribute("role" , roleRepository.findAll());
         return "auth/index";
     }
 

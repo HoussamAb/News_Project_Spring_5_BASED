@@ -34,9 +34,8 @@ public class User {
     private String passwordConfirm;
 
 
-    @ManyToOne
-
-    private Role role;
+    @ManyToOne(fetch= FetchType.EAGER)
+    private Role roles;
 
 
     @Column(name="created")
