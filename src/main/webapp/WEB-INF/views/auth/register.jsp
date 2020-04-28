@@ -54,8 +54,9 @@
             </c:forEach>
             <form:errors path="roles" cssClass="alert-danger" />
         </div>
-            <input type="submit" value="Submit"/>
+            <input class="btn btn-default" type="submit" value="Submit"/>
         </form:form>
+        <a class="btn-default btn" href="${pageContext.request.contextPath}/auth/login">connexion</a>
     </header>
 </div>
 </html>

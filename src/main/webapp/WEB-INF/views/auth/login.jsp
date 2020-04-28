@@ -31,8 +31,9 @@
                 <form:input path="password" cssClass="form-control"  placeholder="password" />
                 <form:errors path="password" cssClass="alert-danger" />
             </div>
-            <input type="submit" value="Submit"/>
+            <input class="btn btn-default" type="submit" value="Submit"/>
         </form:form>
     </header>
+    <a class="btn-default btn" href="${pageContext.request.contextPath}/auth/register">register</a>
 </div>
 </html>

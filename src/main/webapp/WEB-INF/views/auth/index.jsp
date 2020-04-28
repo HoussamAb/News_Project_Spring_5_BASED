@@ -11,13 +11,18 @@
 <html>
 <head>
     <title>index page</title>
+    <link href="<c:url value="/resources/css/bootstrap.min.css" />" rel="stylesheet" />
+    <script src="<c:url value="/resources/js/jquery-1.11.1.min.js" />"></script>
+    <script src="<c:url value="/resources/js/bootstrap.min.js" />"></script>
 </head>
 <body>
+<div class="container">
 <c:forEach items="${session}"   var="users">
-            <p> user="${users.key}" <p/>
-            <p> role="${users.value}" <p/>
-
+            <p><label>user :</label>"${users.key}" <p/>
+            <p><label> role :</label> "${users.value}" <p/>
 </c:forEach>
-
+<a class="btn btn-default" href="${pageContext.request.contextPath}/auth/logout">deconnexion</a>
+<a class="btn btn-default" href="${pageContext.request.contextPath}/article/add">ajouter un article</a>
+</div>
 </body>
 </html>
