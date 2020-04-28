@@ -50,7 +50,8 @@ public class UserServiceImpl implements UserService {
         }
         for (int i=0; i<users.size();i++){
             if(users.get(i).getUsername().equals(username)==true){
-                u =  users.get(i);
+                 u = users.get(i);
+                return users.get(i);
             }
         }
         return u;

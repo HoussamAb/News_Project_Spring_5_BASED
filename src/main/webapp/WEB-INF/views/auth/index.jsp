@@ -15,7 +15,7 @@
 <body>
 <c:forEach items="${session}"   var="users">
             <p> user="${users.key}" <p/>
-            <p> user="${users.value}" <p/>
+            <p> role="${users.value}" <p/>
 
 </c:forEach>
 

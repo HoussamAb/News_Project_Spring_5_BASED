@@ -29,13 +29,6 @@ public class UserController {
      @Autowired
     private RoleRepository roleRepository;
 
-
-    /*public void initBinder(WebDataBinder binder) {
-        binder.registerCustomEditor(Role.class,RoleFormater("role"),String.class);
-        binder.registerCustomEditor(String.class,"",new RoleFormater(String.class));
-
-
-    }*/
     @InitBinder
     private void customizeBinding (WebDataBinder binder) {
         binder.registerCustomEditor(String.class,"roles", new RoleFormater());
@@ -45,31 +38,24 @@ public class UserController {
     public String registration(@ModelAttribute("userForm") User user,Model model) {
         model.addAttribute("roles", roleRepository.findAll());
         model.addAttribute("userForm", new User());
-
         return "auth/register";
     }
 
     @PostMapping("/register")
     public String registration(@ModelAttribute("userForm") User user, BindingResult bindingResult) throws ResourceNotFoundException {
-       // userValidator.validate(userForm, bindingResult);
-
         if (bindingResult.hasErrors()) {
             return "auth/register";
         }
-
         userService.save(user);
-
-        // securityService.autoLogin(userForm.getUsername(), userForm.getPasswordConfirm());
-
-        return "redirect:/index";
+        return "redirect:/auth/login";
     }
 
     @GetMapping("/login")
     public String login( @ModelAttribute("userForm") User user ,Model model,HttpServletRequest request) {
         model.addAttribute("user", user);
-        List<String> messages = (List<String>) request.getSession().getAttribute("users");
+        Map<String ,String> messages =(Map<String, String>)  request.getSession().getAttribute("users");
         if (messages != null) {
-            return "redirect:/index";
+            return "redirect:/auth/index";
         }
         return "auth/login";
     }
@@ -81,23 +67,22 @@ public class UserController {
         if(result.hasErrors()){
             return "auth/login";
         }
-        User u = userService.findByUserUsername((String) model.getAttribute("username"));
-        if(u != null){
-            Map<String, Object> sessionData = new HashMap<>();
-            sessionData.put(user.getUsername(),user.getRoles());
-            request.getSession().invalidate();
-            request.getSession().setAttribute("users", sessionData);
-            return "auth/index";
-        }
-        return "redirect:/login";
-
+        User u = userService.findByUserUsername(user.getUsername());
+        Map<String, Role> sessionData = new HashMap<>();
+        sessionData.put(u.getUsername(),u.getRoles());
+        request.getSession().invalidate();
+        request.getSession().setAttribute("users", sessionData);
+        return "redirect:/auth/index";
     }
 
     @GetMapping({"/index"})
     public String welcome(Model model , HttpSession session) {
-        Map<String,List> messages = (HashMap<String, List>) session.getAttribute("users");
+        Map<String,Role> messages = (HashMap<String, Role>) session.getAttribute("users");
+        if (messages == null) {
+            return "redirect:/auth/login";
+        }
         Map<String,String> sessionData =  new HashMap<>();
-        messages.forEach((key, value) -> sessionData.put(key,transfer(value).getName()));
+        messages.forEach((key, value) -> sessionData.put(key,((Role)value).getName()));
         model.addAttribute("session" , sessionData);
         return "auth/index";
     }
@@ -105,14 +90,7 @@ public class UserController {
     @GetMapping("/logout")
     public String logout(HttpServletRequest request) {
         request.getSession().invalidate();
-        return "redirect:/index";
+        return "redirect:/auth/index";
     }
 
-    public Role transfer(List<Role> roles){
-        for (Role value : roles)
-        {
-         return value;
-        }
-        return null;
-    }
 }
