@@ -15,13 +15,13 @@ import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/tag")
+@RequestMapping("/tags")
 public class TagController {
 
     @Autowired
     private TagService tagService;
 
-    @GetMapping(value = {"/","/page/{id}"})
+    @GetMapping("/page/{id}")
     public String home(@PathVariable(name="id",required = false) Optional<Integer> id, ModelMap model)
     {
             Page<Tag> pages = tagService.getAllTags(id, 1, "id");

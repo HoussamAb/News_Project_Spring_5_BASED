@@ -34,6 +34,13 @@ public class ArticleServiceImpl  implements ArticleService{
     }
 
     @Override
+    public List<Article> getAllArticles() {
+        List<Article> all=articleRepository.findAll();
+        return all;
+    }
+
+
+    @Override
     @Transactional
     public Article findById(long id) throws ResourceNotFoundException {
         return articleRepository.findById(id).orElseThrow(

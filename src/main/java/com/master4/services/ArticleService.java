@@ -5,6 +5,7 @@ import com.master4.exceptions.ResourceNotFoundException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -12,7 +13,7 @@ public interface ArticleService {
 
 
     public Page<Article> getAllArticles(Optional<Integer> pageNo, Integer pageSize, String sortBy);
-
+    public List<Article> getAllArticles();
     Article findById(long id) throws ResourceNotFoundException;
 
     void save(Article article);

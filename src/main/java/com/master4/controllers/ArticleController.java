@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping(value = {"","/article"})
+@RequestMapping("/article")
 public class ArticleController {
 
     @Autowired
@@ -51,6 +51,7 @@ public class ArticleController {
             model.addAttribute("pageable", pages);
         return "article/home";
     }
+
 
     @Admin
     @Vister
@@ -112,10 +113,6 @@ public class ArticleController {
         articleService.deleteById(id);
         return "redirect:/article/page/"+page;
     }
-
-
-
-
 
 
 }
