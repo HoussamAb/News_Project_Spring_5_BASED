@@ -22,5 +22,5 @@ public interface ArticleService {
 
     Article findByIdWithTags(@Param("id") long id);
 
-
+    Article findByTitle(String title);
 }

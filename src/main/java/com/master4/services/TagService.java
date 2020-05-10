@@ -21,4 +21,6 @@ public interface TagService {
 
     void deleteById(long id);
 
+    Tag findByTitle(String title);
+
 }

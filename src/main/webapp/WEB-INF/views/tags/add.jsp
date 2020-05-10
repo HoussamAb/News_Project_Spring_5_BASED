@@ -22,7 +22,7 @@
     <jsp:directive.include file="../layout/header.jsp" />
     <header class="col-lg-12">
         <h1>Ajouter un tag</h1>
-        <form:form method="post" action="${pageContext.request.contextPath}/tag/save" modelAttribute="tag" >
+        <form:form method="post" action="${pageContext.request.contextPath}/tags/save" modelAttribute="tag" >
             <form:input path="id" type="hidden" />
             <div class="form-group">
                 <label for="title">Titre</label>

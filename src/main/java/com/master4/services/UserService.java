@@ -19,4 +19,6 @@ public interface UserService {
     User findByIdWithTags(@Param("id") long id);
 
     User findByUserUsername(String username);
+
+    User findByEmail(String value);
 }

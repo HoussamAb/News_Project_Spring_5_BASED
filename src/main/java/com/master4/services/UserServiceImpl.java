@@ -56,4 +56,10 @@ public class UserServiceImpl implements UserService {
         }
         return u;
     }
+
+    @Override
+    @Transactional
+    public User findByEmail(String value) {
+        return userRepository.findByEmail(value);
+    }
 }

@@ -66,5 +66,10 @@ public class ArticleServiceImpl  implements ArticleService{
         return articleRepository.findByIdWithTags(id);
     }
 
+    @Override
+    public Article findByTitle(String title) {
+        return articleRepository.findByTitle(title);
+    }
+
 
 }

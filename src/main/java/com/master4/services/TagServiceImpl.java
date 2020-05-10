@@ -2,6 +2,7 @@ package com.master4.services;
 
 
 import com.master4.entities.Tag;
+import com.master4.entities.User;
 import com.master4.exceptions.ResourceNotFoundException;
 import com.master4.repositories.TagRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,7 @@ public class TagServiceImpl implements TagService{
     public void save(Tag tag) {
          Timestamp timestamp = new Timestamp(System.currentTimeMillis());
          tag.setCreated(timestamp);
+        System.out.println(tag ==null);
          tagRepository.save(tag);
     }
 
@@ -62,4 +64,15 @@ public class TagServiceImpl implements TagService{
     public void deleteById(long id) {
         tagRepository.deleteById(id);
     }
+
+    @Override
+    @Transactional
+    public Tag findByTitle(String title) {
+
+       return  tagRepository.findByTitle(title);
+    }
+
+
+
+
 }

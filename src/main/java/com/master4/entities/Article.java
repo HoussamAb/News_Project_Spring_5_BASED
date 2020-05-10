@@ -1,6 +1,7 @@
 package com.master4.entities;
 
 
+import com.master4.annotaion.UniqueArticle;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class Article {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @UniqueArticle
     @Size(min=3, message = "minimum 3 lettre")
     @Column(name = "title" )
     private String title;
