@@ -18,5 +18,5 @@ public interface UserService {
 
     User findByIdWithTags(@Param("id") long id);
 
-    User findByUserUsername(String username);
+    User findByUsernameAndPassword(String username, String password);
 }

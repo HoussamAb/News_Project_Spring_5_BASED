@@ -37,9 +37,9 @@ public class WebAppConfig implements WebMvcConfigurer {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        registry.addInterceptor(new RoleInterceptor()).addPathPatterns(new String[]{
-                "/**","/article/*","/tag/*","/user/*"
-        });
+        registry.addInterceptor(new RoleInterceptor())
+                .addPathPatterns(new String[]{"/**","/article/*","/tag/*","/user/*"})
+                .excludePathPatterns("/auth/**");
     }
 
     @Override

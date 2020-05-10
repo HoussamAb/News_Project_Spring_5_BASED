@@ -42,18 +42,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User findByUserUsername(String username) {
-        User u = null;
-        List<User> users =  userRepository.findAll();
-        if(users.isEmpty()){
-            return null;
-        }
-        for (int i=0; i<users.size();i++){
-            if(users.get(i).getUsername().equals(username)==true){
-                 u = users.get(i);
-                return users.get(i);
-            }
-        }
-        return u;
+    public User findByUsernameAndPassword(String username, String password) {
+
+        return userRepository.findByUsernameAndPassword(username,password);
     }
 }

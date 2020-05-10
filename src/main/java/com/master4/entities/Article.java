@@ -40,9 +40,9 @@ public class Article {
 
     @Column(name = "modified")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date modified ;
+    private Date modified;
 
-    @ManyToOne
+    @ManyToOne(fetch= FetchType.EAGER)
     private User user;
 
     @Size(min=1,message = "selectionner au moins une tag")

@@ -1,5 +1,6 @@
 package com.master4.interceptors;
 
+import com.master4.entities.Role;
 import com.master4.exception.NotAllowedMethodException;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.method.HandlerMethod;
@@ -7,13 +8,15 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 public class RoleInterceptor extends HandlerInterceptorAdapter {
 
 
     String[] writerallowedLinks = {"","","",""};
-    String[] viewerallowedLinks = {"","","",""};
-
+    String[] viewerallowedLinks = {"/article/","","",""};
+    String Role;
     @Override
     public boolean preHandle (HttpServletRequest request,
                               HttpServletResponse response,
@@ -21,7 +24,7 @@ public class RoleInterceptor extends HandlerInterceptorAdapter {
         /*RequestMapping rm = ((HandlerMethod) handler).getMethodAnnotation(
                 RequestMapping.class);
         boolean alreadyLoggedIn = request.getSession()
-                .getAttribute("user") != null;
+                .getAttribute("users") != null;
         boolean loginPageRequested = rm != null && rm.value().length > 0
                 && "login".equals(rm.value()[0]);
 
@@ -33,34 +36,45 @@ public class RoleInterceptor extends HandlerInterceptorAdapter {
             response.sendRedirect(request.getContextPath() + "/auth/login");
             return false;
         }*/
-
-        System.out.println("==================================="+request.getContextPath()+
-                "=================================="+request.getServletPath()+"====="+request.getPathInfo());
-
-
-        switch (request.getSession().getAttribute("Role").toString())
-        {
-            case "visiter":
-                if(!isallowed(viewerallowedLinks,request.getServletPath()))
-                {
-                    //    response.sendRedirect(request.getContextPath() + "notallowedServlet");
-                    return  false;
-                }
-                break;
-            case "admin":
-                return true;
+        Map<String, Role> users = (HashMap<String, Role>) request.getSession().getAttribute("users");
+        if(users != null){
+            getMapData(users);
 
 
-            case "writer":
+            System.out.println("Interceptor ==================================="+request.getContextPath()+
+                    "=================================="+request.getServletPath()+"====="+request.getPathInfo());
 
 
-                if(!isallowed(writerallowedLinks,request.getServletPath()))
-                {
-                    //    response.sendRedirect(request.getContextPath() + "notallowedServlet");
-                    return  false;
-                }
-                break;
+
+            switch (Role)
+            {
+                case "visiter":
+                    if(!isallowed(viewerallowedLinks,request.getServletPath()))
+                    {
+                        request.setAttribute("errorMessage","Alert ! You're not allowed to access this area.");
+                        request.getRequestDispatcher("/WEB-INF/views/erreurAuth.jsp").forward(request,response);
+                        //request.getRequestDispatcher("/WEB-INF/views/erreurAuth.jsp").forward(request,response);
+                        return  false;
+                    }
+                    break;
+                case "admin":
+                    return true;
+
+
+                case "writer":
+
+
+                    if(!isallowed(writerallowedLinks,request.getServletPath()))
+                    {
+                        request.setAttribute("errorMessage","Alert ! You're not allowed to access this area.");
+                        request.getRequestDispatcher("/WEB-INF/views/erreurAuth.jsp").forward(request,response);
+                        return  false;
+                    }
+                    break;
+            }
         }
+
+
         return true;
     }
 
@@ -77,5 +91,10 @@ public class RoleInterceptor extends HandlerInterceptorAdapter {
         return false;
     }
 
+    void getMapData(Map<String,Role> users){
+        for (Map.Entry<String,Role> entry : users.entrySet()) {
+            Role = entry.getValue().getName();
+        }
+    }
 }
 

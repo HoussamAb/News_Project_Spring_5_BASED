@@ -42,4 +42,5 @@ public class homeController {
         articleService.deleteById(id);
         return "redirect:/home";
     }
+
 }

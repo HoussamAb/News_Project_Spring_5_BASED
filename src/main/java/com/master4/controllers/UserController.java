@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 import java.util.*;
 
 @Controller
@@ -42,7 +43,7 @@ public class UserController {
     }
 
     @PostMapping("/register")
-    public String registration(@ModelAttribute("userForm") User user, BindingResult bindingResult) throws ResourceNotFoundException {
+    public String registration(@Valid @ModelAttribute("userForm") User user, BindingResult bindingResult) throws ResourceNotFoundException {
         if (bindingResult.hasErrors()) {
             return "auth/register";
         }
@@ -67,7 +68,7 @@ public class UserController {
         if(result.hasErrors()){
             return "auth/login";
         }
-        User u = userService.findByUserUsername(user.getUsername());
+        User u = userService.findByUsernameAndPassword(user.getUsername(),user.getPassword());
         Map<String, Role> sessionData = new HashMap<>();
         sessionData.put(u.getUsername(),u.getRoles());
         request.getSession().invalidate();
