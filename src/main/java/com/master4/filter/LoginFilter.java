@@ -19,12 +19,17 @@ public class LoginFilter extends HttpFilter {
 
     private User user;
     String Role;
+
     String[] writerallowedLinks = {"/article/add","/article/","/article/view","/article/save","/tags/add", "/tags/page/*","/auth/index","/auth/login","/auth/logout"};
     String[] visiterallowedLinks = {"/article/","/auth/index","/auth/login","/auth/logout" ,"/article/view/*" , "/tags/"};
 
     @Override
     public void doFilter(HttpServletRequest servletRequest, HttpServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         System.err.println("============== test filter ========");
+        if(servletRequest.getServletPath().equals("/auth/login")==true || servletRequest.getServletPath().equals("/auth/register")==true){
+            filterChain.doFilter(servletRequest, servletResponse);
+            return;
+        }
         Map<String, Role> users = (HashMap<String, Role>) servletRequest.getSession().getAttribute("users");
         if(isLoguedIn(users)){
             if(users != null){
@@ -71,6 +76,7 @@ public class LoginFilter extends HttpFilter {
 
         }else{
             System.out.println("i'm going to login page ! :)");
+            servletResponse.sendRedirect(servletRequest.getContextPath() + "/auth/login");
             filterChain.doFilter(servletRequest, servletResponse);
             return;
         }

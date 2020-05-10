@@ -14,6 +14,11 @@ public class UniqueTagValidation implements ConstraintValidator <UniqueTag,Strin
     private TagServiceImpl tagService;
 
     @Override
+    public void initialize(UniqueTag uniqueTag) {
+
+    }
+
+    @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         try
         {

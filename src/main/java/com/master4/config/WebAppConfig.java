@@ -34,14 +34,14 @@ public class WebAppConfig implements WebMvcConfigurer {
         registry.addResourceHandler("/resources/**")
                 .addResourceLocations("/resources/");
     }
-
+/*
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new RoleInterceptor())
                 .addPathPatterns(new String[]{"/**","/article/*","/tag/*","/user/*"})
                 .excludePathPatterns("/auth/**");
     }
-
+*/
     @Override
     public void addFormatters(FormatterRegistry registry) {
         registry.addConverter(new RoleFormater());

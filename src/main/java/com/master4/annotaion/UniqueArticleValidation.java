@@ -15,6 +15,11 @@ public class UniqueArticleValidation implements ConstraintValidator <UniqueArtic
     private ArticleServiceImpl articleService;
 
     @Override
+    public void initialize(UniqueArticle uniqueArticle) {
+
+    }
+
+    @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         try
         {

@@ -14,6 +14,11 @@ public class UniqueUserValidation implements ConstraintValidator <UniqueUser,Str
     private UserServiceImpl userService;
 
     @Override
+    public void initialize(UniqueUser uniqueUser) {
+
+    }
+
+    @Override
     public boolean isValid(String value, ConstraintValidatorContext context) {
         try
         {
