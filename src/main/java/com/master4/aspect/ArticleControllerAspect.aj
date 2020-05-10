@@ -72,6 +72,7 @@ public class ArticleControllerAspect {
                 if(isWriter==false)
                 {
                     throw new NotAllowedMethodException();
+
                 }
                 break;
         }

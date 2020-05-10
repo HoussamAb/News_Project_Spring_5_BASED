@@ -12,10 +12,10 @@
         <div class="container-fluid">
           <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-              <li><a href="#">Contact</a></li>
-              <li><a href="home">home</a></li>
-              <li><a href="auth/login">login</a></li>
-             <li><a href="auth/register">Sing Up</a></li>
+
+              <li><a href="${pageContext.request.contextPath}/home">home</a></li>
+              <li><a href="${pageContext.request.contextPath}/auth/login">login</a></li>
+             <li><a href="${pageContext.request.contextPath}/auth/register">Sing Up</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div><!--/.container-fluid -->

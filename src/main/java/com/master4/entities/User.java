@@ -1,6 +1,7 @@
 package com.master4.entities;
 
 
+import com.master4.annotaion.UniqueUser;
 import lombok.*;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @UniqueUser
     @Column(name="email", nullable = false, unique = true)
     private String email;
 
