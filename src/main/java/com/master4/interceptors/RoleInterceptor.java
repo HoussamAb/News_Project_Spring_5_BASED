@@ -13,43 +13,18 @@ import java.util.Map;
 
 public class RoleInterceptor extends HandlerInterceptorAdapter {
 
+    String[] writerallowedLinks = {"/article/add","/article/","/article/view","/article/save","/tags/add", "/tags/page/*","/auth/index","/auth/login","/auth/logout"};
+    String[] visiterallowedLinks = {"/article/","/auth/index","/auth/login","/auth/logout" ,"/article/view/*" , "/tags/"};
 
-    String[] writerallowedLinks = {"","","",""};
-    String[] viewerallowedLinks = {"/article/","","",""};
     String Role;
     @Override
-    public boolean preHandle (HttpServletRequest request,
-                              HttpServletResponse response,
-                              Object handler) throws Exception {
-        /*RequestMapping rm = ((HandlerMethod) handler).getMethodAnnotation(
-                RequestMapping.class);
-        boolean alreadyLoggedIn = request.getSession()
-                .getAttribute("users") != null;
-        boolean loginPageRequested = rm != null && rm.value().length > 0
-                && "login".equals(rm.value()[0]);
-
-        if (alreadyLoggedIn && loginPageRequested) {
-            response.sendRedirect(request.getRequestURI());
-            return false;
-        } else if (!alreadyLoggedIn && !loginPageRequested) {
-
-            response.sendRedirect(request.getContextPath() + "/auth/login");
-            return false;
-        }*/
+    public boolean preHandle (HttpServletRequest request,HttpServletResponse response,Object handler) throws Exception {
         Map<String, Role> users = (HashMap<String, Role>) request.getSession().getAttribute("users");
         if(users != null){
             getMapData(users);
-
-
-            System.out.println("Interceptor ==================================="+request.getContextPath()+
-                    "=================================="+request.getServletPath()+"====="+request.getPathInfo());
-
-
-
             switch (Role)
-            {
-                case "visiter":
-                    if(!isallowed(viewerallowedLinks,request.getServletPath()))
+            {   case "visiter":
+                    if(!isallowed(visiterallowedLinks,request.getServletPath()))
                     {
                         request.setAttribute("errorMessage","Alert ! You're not allowed to access this area.");
                         request.getRequestDispatcher("/WEB-INF/views/erreurAuth.jsp").forward(request,response);
@@ -59,30 +34,21 @@ public class RoleInterceptor extends HandlerInterceptorAdapter {
                     break;
                 case "admin":
                     return true;
-
-
                 case "writer":
-
-
-                    if(!isallowed(writerallowedLinks,request.getServletPath()))
-                    {
+                    if(!isallowed(writerallowedLinks,request.getServletPath())){
                         request.setAttribute("errorMessage","Alert ! You're not allowed to access this area.");
                         request.getRequestDispatcher("/WEB-INF/views/erreurAuth.jsp").forward(request,response);
-                        return  false;
-                    }
+                        return  false;                    }
                     break;
             }
-        }
-
-
-        return true;
+        }        return true;
     }
 
     boolean isallowed(String[] liste,String url)
     {
 
         for (String link:liste) {
-            if(url.compareTo(link)!=0)
+            if(url.equals(link)==true)
             {
 
                 return true;
